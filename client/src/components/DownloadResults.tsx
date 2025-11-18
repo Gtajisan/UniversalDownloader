@@ -16,9 +16,22 @@ export default function DownloadResults({ result }: DownloadResultsProps) {
 
   if (!result.success) {
     return (
-      <Card className="w-full bg-destructive/10 border-destructive/30">
-        <CardContent className="pt-6">
-          <p className="text-center text-destructive" data-testid="text-error">{result.error}</p>
+      <Card className="w-full bg-destructive/10 border-destructive/30 backdrop-blur-md">
+        <CardContent className="pt-6 pb-6">
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 rounded-full bg-destructive/20 mx-auto flex items-center justify-center">
+              <svg className="w-6 h-6 text-destructive" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="font-semibold text-lg mb-1">Download Failed</h3>
+              <p className="text-sm text-destructive" data-testid="text-error">{result.error}</p>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Please verify the URL is correct and the platform is supported
+            </p>
+          </div>
         </CardContent>
       </Card>
     );
@@ -99,18 +112,24 @@ export default function DownloadResults({ result }: DownloadResultsProps) {
           </div>
         )}
 
-        <Button
-          className="w-full h-12 text-lg"
-          size="lg"
-          asChild
-          data-testid="button-download"
-        >
-          <a href={downloadUrl} target="_blank" rel="noopener noreferrer">
-            <Download className="mr-2 h-5 w-5" />
-            Download Now
-            <ExternalLink className="ml-2 h-4 w-4" />
-          </a>
-        </Button>
+        {downloadUrl ? (
+          <Button
+            className="w-full h-12 text-lg bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+            size="lg"
+            asChild
+            data-testid="button-download"
+          >
+            <a href={downloadUrl} target="_blank" rel="noopener noreferrer" download>
+              <Download className="mr-2 h-5 w-5" />
+              Download Now
+              <ExternalLink className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        ) : (
+          <div className="text-center text-sm text-muted-foreground p-4 bg-muted/20 rounded-lg">
+            No download URL available. Please try again with a different URL.
+          </div>
+        )}
       </CardContent>
     </Card>
   );

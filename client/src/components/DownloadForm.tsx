@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import { downloadRequestSchema, type DownloadRequest, type DownloadResult } from "@shared/schema";
 
 interface DownloadFormProps {
@@ -15,6 +16,7 @@ interface DownloadFormProps {
 export default function DownloadForm({ onDownloadResult }: DownloadFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [detectedPlatform, setDetectedPlatform] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<DownloadRequest>({
     resolver: zodResolver(downloadRequestSchema),
@@ -55,6 +57,12 @@ export default function DownloadForm({ onDownloadResult }: DownloadFormProps) {
 
   const onSubmit = async (data: DownloadRequest) => {
     setIsLoading(true);
+    
+    toast({
+      title: "Processing...",
+      description: "Fetching download link from " + (detectedPlatform || "platform"),
+    });
+    
     try {
       const response = await fetch('/api/download', {
         method: 'POST',
@@ -64,12 +72,38 @@ export default function DownloadForm({ onDownloadResult }: DownloadFormProps) {
         body: JSON.stringify({ url: data.url }),
       });
       
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+      
       const result = await response.json();
+      
+      if (result.success) {
+        toast({
+          title: "Success!",
+          description: "Download link ready. Click the button below to download.",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to fetch download link",
+          variant: "destructive",
+        });
+      }
+      
       onDownloadResult(result);
     } catch (error) {
+      const errorMessage = "Failed to fetch download link. Please check your URL and try again.";
+      
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      
       onDownloadResult({
         success: false,
-        error: "Failed to fetch download link. Please try again.",
+        error: errorMessage,
       });
     } finally {
       setIsLoading(false);
