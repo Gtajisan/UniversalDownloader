@@ -16,3 +16,30 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export const downloadRequestSchema = z.object({
+  url: z.string().url("Please enter a valid URL"),
+});
+
+export type DownloadRequest = z.infer<typeof downloadRequestSchema>;
+
+export interface VideoQuality {
+  quality: string;
+  url: string;
+  size?: string;
+}
+
+export interface DownloadResult {
+  success: boolean;
+  data?: {
+    title?: string;
+    thumbnail?: string;
+    duration?: string;
+    url?: string;
+    urls?: string[];
+    qualities?: VideoQuality[];
+    author?: string;
+    platform?: string;
+  };
+  error?: string;
+}
