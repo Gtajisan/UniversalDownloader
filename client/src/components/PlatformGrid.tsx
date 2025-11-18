@@ -23,10 +23,10 @@ export default function PlatformGrid() {
   return (
     <div className="w-full">
       <div className="text-center mb-6">
-        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-2" data-testid="text-platforms-heading">
           Supported Platforms
         </h3>
-        <p className="text-xs text-muted-foreground/70">Click on any platform to see supported features</p>
+        <p className="text-xs text-muted-foreground/70" data-testid="text-platforms-description">Click on any platform to see supported features</p>
       </div>
       <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-3">
         {platforms.map((platform, index) => (
@@ -41,13 +41,13 @@ export default function PlatformGrid() {
           >
             <div className="flex flex-col items-center gap-2 text-center">
               {platform.icon ? (
-                <platform.icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
+                <platform.icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" data-testid={`icon-${platform.name.toLowerCase().replace(/\s+/g, '-')}`} />
               ) : (
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary" data-testid={`icon-${platform.name.toLowerCase().replace(/\s+/g, '-')}`}>
                   {platform.name.charAt(0)}
                 </div>
               )}
-              <span className="text-xs font-medium">{platform.name}</span>
+              <span className="text-xs font-medium" data-testid={`text-platform-${platform.name.toLowerCase().replace(/\s+/g, '-')}`}>{platform.name}</span>
             </div>
           </div>
         ))}

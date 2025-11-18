@@ -128,21 +128,25 @@ export default function DownloadForm({ onDownloadResult }: DownloadFormProps) {
                         handleUrlChange(e.target.value);
                       }}
                       placeholder="Paste video URL from TikTok, YouTube, Instagram..."
-                      className="pr-12 h-12 text-base bg-background/50 backdrop-blur-sm border-primary/30 focus:border-primary"
-                      style={{ boxShadow: '0 0 15px rgba(0, 255, 255, 0.2)' }}
+                      className="h-16 text-base bg-background/50 backdrop-blur-sm border-2 border-primary/30 focus:border-primary pr-20 rounded-xl"
+                      style={{ boxShadow: '0 0 20px rgba(0, 255, 255, 0.3)' }}
                       data-testid="input-url"
                     />
                     <Button
                       type="submit"
                       size="icon"
                       disabled={isLoading}
-                      className="absolute right-1 top-1 h-10 w-10"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg"
+                      style={{ boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)' }}
                       data-testid="button-submit"
+                      title="Fetch Download Link"
                     >
                       {isLoading ? (
-                        <Loader2 className="h-5 w-5 animate-spin" />
+                        <Loader2 className="h-6 w-6 animate-spin" />
                       ) : (
-                        <Download className="h-5 w-5" />
+                        <div className="relative">
+                          <Download className="h-6 w-6" />
+                        </div>
                       )}
                     </Button>
                   </div>
