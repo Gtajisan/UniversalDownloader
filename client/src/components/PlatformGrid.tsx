@@ -22,20 +22,34 @@ const platforms = [
 export default function PlatformGrid() {
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold mb-4 text-center text-muted-foreground uppercase tracking-wide">
-        Supported Platforms
-      </h3>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-        {platforms.map((platform) => (
-          <Badge
+      <div className="text-center mb-6">
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-2">
+          Supported Platforms
+        </h3>
+        <p className="text-xs text-muted-foreground/70">Click on any platform to see supported features</p>
+      </div>
+      <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-3">
+        {platforms.map((platform, index) => (
+          <div
             key={platform.name}
-            variant="secondary"
-            className="flex items-center gap-2 justify-center p-3 hover-elevate cursor-default"
+            className="group relative bg-card/60 backdrop-blur-sm border border-primary/20 rounded-lg p-4 hover-elevate active-elevate-2 cursor-pointer transition-all"
+            style={{
+              animationDelay: `${index * 50}ms`,
+              boxShadow: '0 0 10px rgba(0, 255, 255, 0.1)',
+            }}
             data-testid={`badge-platform-${platform.name.toLowerCase().replace(/\s+/g, '-')}`}
           >
-            {platform.icon && <platform.icon className="h-4 w-4" />}
-            <span className="text-xs">{platform.name}</span>
-          </Badge>
+            <div className="flex flex-col items-center gap-2 text-center">
+              {platform.icon ? (
+                <platform.icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
+              ) : (
+                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary">
+                  {platform.name.charAt(0)}
+                </div>
+              )}
+              <span className="text-xs font-medium">{platform.name}</span>
+            </div>
+          </div>
         ))}
       </div>
     </div>

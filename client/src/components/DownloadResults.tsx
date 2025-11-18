@@ -32,18 +32,24 @@ export default function DownloadResults({ result }: DownloadResultsProps) {
 
   return (
     <Card 
-      className="w-full bg-card/80 backdrop-blur-md border-primary/30 overflow-hidden" 
-      style={{ boxShadow: '0 0 20px rgba(0, 255, 255, 0.2)' }}
+      className="w-full bg-gradient-to-br from-card/90 to-card/70 backdrop-blur-md border-primary/40 overflow-hidden" 
+      style={{ boxShadow: '0 0 30px rgba(0, 255, 255, 0.3), 0 0 60px rgba(255, 0, 255, 0.1)' }}
     >
-      <CardHeader>
-        <CardTitle className="text-xl font-bold" data-testid="text-title">
-          {result.data.title || "Download Ready"}
-        </CardTitle>
-        {result.data.platform && (
-          <Badge variant="secondary" className="w-fit" data-testid="badge-platform">
-            {result.data.platform}
-          </Badge>
-        )}
+      <CardHeader className="space-y-3">
+        <div className="flex items-start justify-between gap-4">
+          <CardTitle className="text-xl md:text-2xl font-bold flex-1" data-testid="text-title">
+            {result.data.title || "Download Ready"}
+          </CardTitle>
+          {result.data.platform && (
+            <Badge 
+              variant="secondary" 
+              className="bg-primary/20 text-primary border-primary/30"
+              data-testid="badge-platform"
+            >
+              {result.data.platform}
+            </Badge>
+          )}
+        </div>
       </CardHeader>
       
       <CardContent className="space-y-4">

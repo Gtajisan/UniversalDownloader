@@ -56,7 +56,14 @@ export default function DownloadForm({ onDownloadResult }: DownloadFormProps) {
   const onSubmit = async (data: DownloadRequest) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://neoaz.is-a.dev/api/alldl?url=${encodeURIComponent(data.url)}`);
+      const response = await fetch('/api/download', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url: data.url }),
+      });
+      
       const result = await response.json();
       onDownloadResult(result);
     } catch (error) {
